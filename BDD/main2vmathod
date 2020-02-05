@@ -1,0 +1,46 @@
+	public static void main(String[] args) { //word+ctrl+space
+		String url ="jdbc:mysql://localhost:3306/spital?useSSL=false"; //?useSSL=false - security - optional
+		String user="root";
+		String password="5RrLlQ";
+	
+	try {
+		Connection con= DriverManager.getConnection(url, user, password);
+		Statement st = con.createStatement();
+		String sql = "select * from spital.angajat";
+		ResultSet rs = st.executeQuery(sql);
+		
+		while(rs.next()) {
+			System.out.println(rs.getString("nume_angajat")+" "+rs.getString("functie_angajat"));
+		}
+		
+	} catch (SQLException e) {
+		System.err.println("AICI INTRA");
+		e.printStackTrace();
+		e.getMessage();
+	}
+		
+	}
+	
+		public static void main(String[] args) {
+		Database database = new Database("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/jdbcexample", "root", "5RrLlQ");
+		// driver-url catre DB-username-pwd
+		DatabaseConnection databaseConnection = new DatabaseConnection(database);
+		
+		
+		AngajatOperations employeeOperations = new AngajatOperations(databaseConnection);
+		
+		System.out.println("Before adding...");
+		List<Angajat> employees = employeeOperations.getAllEmployees();
+		employeeOperations.printListOfEmployees(employees);
+		
+		Angajat employeeToAdd = new Angajat();
+		
+		employeeOperations.addEmployee(employeeToAdd);
+		
+		System.out.println("After adding...");
+		employees = employeeOperations.getAllEmployees();
+		employeeOperations.printListOfEmployees(employees);
+		EmployeeService es = new EmployeeService();
+		
+		es.save(new Angajat("Mr.Bean"));
+	}
